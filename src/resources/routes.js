@@ -4,7 +4,7 @@ const AddressController = require('../controllers/AddressController')
 
 const routes = express.Router()
 
-routes.get('/:end', AddressController.findAddress)
+routes.get('/address/:end', AddressController.findAddress)
 
 
 module.exports = routes
