@@ -13,22 +13,29 @@ module.exports = {
 
         const response = await axios.get(`${configApi.url}${configApi.address}&key=${configApi.keyGoogle}`)
 
-        let dataApi = response.data.results
-
-        // Recebe a latitude e a longitudade
-        const getLat = latitude => latitude.geometry.location.lat
-        const getLng = longitude => longitude.geometry.location.lng
-
-        const latitude = dataApi.map(getLat).reduce((indice, value) => { return indice + value })
-        const longitude = dataApi.map(getLng).reduce((indice, value) => { return indice + value })
-
-        const p = Math.pow(latitude - longitude, 2)
-        const r = Math.sqrt(p)
+        let api = response.data.results
 
 
-        const p1 = Math.pow('-22.8967601' - '-43.17976549', 2)
-        const p2 = Math.pow('-22.9507173' - '-43.1876474', 2)
-        const d = Math.sqrt(p1 + p2)
+        const coordinantes = api.map((coordinante) => {
+
+            const data = {
+                lat: coordinante.geometry.location.lat,
+                lng: coordinante.geometry.location.lng,
+            }
+
+            return data
+        })
+
+
+        const p1 = Math.pow(coordinantes[0].lat - coordinantes[0].lng, 2)
+        const p2 = Math.pow(coordinantes[1].lat - coordinantes[1].lng, 2)
+        const p3 = Math.pow(coordinantes[2].lat - coordinantes[2].lng, 2)
+
+        const d = Math.sqrt(p1 + p2 + p3)
+
+        // const p1 = Math.pow('-22.8967601' - '-43.17976549', 2)
+        // const p2 = Math.pow('-22.9507173' - '-43.1876474', 2)
+        // const d = Math.sqrt(p1 + p2)
 
         // p1 = Math.pow(x1 - x2, 2)
         //p2 = Math.pow(y1 - y2, 2)
@@ -37,7 +44,7 @@ module.exports = {
 
 
 
-        return res.send({d, longitude, latitude, distance_total: r, address: dataApi })
+        return res.send({coordinantes, distance: d})
     }
 
 }
