@@ -18,18 +18,26 @@ module.exports = {
         // Recebe a latitude e a longitudade
         const getLat = latitude => latitude.geometry.location.lat
         const getLng = longitude => longitude.geometry.location.lng
-        const getAddress = address => address.formatted_address
 
-        const latitude = dataApi.map(getLat).reduce((indice, value) => { return indice - value })
-        const longitude = dataApi.map(getLng).reduce((indice, value) => { return indice - value })
+        const latitude = dataApi.map(getLat).reduce((indice, value) => { return indice + value })
+        const longitude = dataApi.map(getLng).reduce((indice, value) => { return indice + value })
 
-        const r = Math.sqrt(latitude * longitude)
-
-        // distance: Math.sqrt((points[0].lat - points[0].lng) * (points[1].lat - points[1].lng)),
+        const p = Math.pow(latitude - longitude, 2)
+        const r = Math.sqrt(p)
 
 
+        const p1 = Math.pow('-22.8967601' - '-43.17976549', 2)
+        const p2 = Math.pow('-22.9507173' - '-43.1876474', 2)
+        const d = Math.sqrt(p1 + p2)
 
-        return res.send({ longitude, latitude, distance_total: r, address: dataApi })
+        // p1 = Math.pow(x1 - x2, 2)
+        //p2 = Math.pow(y1 - y2, 2)
+        // d = Math.sqrt(p1 + p2)
+
+
+
+
+        return res.send({d, longitude, latitude, distance_total: r, address: dataApi })
     }
 
 }
