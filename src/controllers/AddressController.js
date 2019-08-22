@@ -9,7 +9,7 @@ module.exports = {
             url: 'https://maps.googleapis.com/maps/api/geocode/json?address=',
             // address: 'Av. Rio branco 1 - Centro, Rio de Janeiro - RJ, Rua 19 de fevereiro, 34 - Botafogo, Rio de Janeiro - RJ, Rua laranjeiras 27, Vilar dos teles, Rua Uruguaiana 22, Centro',
             address: req.params.end,
-            keyGoogle: 'You-key'  // Adicione a sua chave.
+            keyGoogle: 'YOUR-KEY-GOOGLE'  // Adicione a sua chave.
         }
 
         //Busca na Api do Google a geolocalização dos endereços citados.
