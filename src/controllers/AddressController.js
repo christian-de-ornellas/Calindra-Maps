@@ -27,24 +27,18 @@ module.exports = {
         })
 
 
+        
+        const qtd = coordinantes.length
+
+      
+
         const p1 = Math.pow(coordinantes[0].lat - coordinantes[0].lng, 2)
         const p2 = Math.pow(coordinantes[1].lat - coordinantes[1].lng, 2)
         const p3 = Math.pow(coordinantes[2].lat - coordinantes[2].lng, 2)
 
         const d = Math.sqrt(p1 + p2 + p3)
 
-        // const p1 = Math.pow('-22.8967601' - '-43.17976549', 2)
-        // const p2 = Math.pow('-22.9507173' - '-43.1876474', 2)
-        // const d = Math.sqrt(p1 + p2)
-
-        // p1 = Math.pow(x1 - x2, 2)
-        //p2 = Math.pow(y1 - y2, 2)
-        // d = Math.sqrt(p1 + p2)
-
-
-
-
-        return res.send({coordinantes, distance: d})
+        return res.send({coordinantes, distance: d, qtd})
     }
 
 }
