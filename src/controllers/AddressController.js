@@ -1,6 +1,7 @@
 const axios = require('axios')
 
 module.exports = {
+    //Função asincrona
     async findAddress(req, res) {
 
         //Config de acesso da api.
@@ -8,37 +9,37 @@ module.exports = {
             url: 'https://maps.googleapis.com/maps/api/geocode/json?address=',
             // address: 'Av. Rio branco 1 - Centro, Rio de Janeiro - RJ, Rua 19 de fevereiro, 34 - Botafogo, Rio de Janeiro - RJ, Rua laranjeiras 27, Vilar dos teles, Rua Uruguaiana 22, Centro',
             address: req.params.end,
-            keyGoogle: 'AIzaSyChxyljBxrQ9yvdS5BOJEWywv1C45lpprw'
+            keyGoogle: 'YOUR-KEY'
         }
 
+        //Busca na Api do Google a geolocalização dos endereços citados.
         const response = await axios.get(`${configApi.url}${configApi.address}&key=${configApi.keyGoogle}`)
 
+        //Guarda as informações da api do Google.
         let api = response.data.results
 
-
+        //Lista todas as informações da api do Google e guarda em um objeto.
         const coordinantes = api.map((coordinante) => {
 
             const data = {
                 lat: coordinante.geometry.location.lat,
-                lng: coordinante.geometry.location.lng,
+                lng: coordinante.geometry.location.lng
             }
 
             return data
         })
 
+        // Conta quandos endereços temos.
+        let count = coordinantes.length
 
-        
-        const qtd = coordinantes.length
+        // Pega os endereços pecorrendo a cada vetor e aplica o calculo euclidiano.
+        const distance = coordinantes.reduce((indice, value) => {
+            let valueCoordinante = Math.pow(value.lat - value.lng, 2)
+            let valueDistance = Math.sqrt(valueCoordinante * count)
+            return valueDistance
+        })
 
-      
-
-        const p1 = Math.pow(coordinantes[0].lat - coordinantes[0].lng, 2)
-        const p2 = Math.pow(coordinantes[1].lat - coordinantes[1].lng, 2)
-        const p3 = Math.pow(coordinantes[2].lat - coordinantes[2].lng, 2)
-
-        const d = Math.sqrt(p1 + p2 + p3)
-
-        return res.send({coordinantes, distance: d, qtd})
+        return res.send({ coordinantes, distance })
     }
 
 }
